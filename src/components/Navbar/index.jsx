@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 
 const pages = ["Home", "CreatePost", "Login"];
 
-const Navbar = () => {
+const Navbar = ({ isAuth, signUserOut }) => {
   const [anchorElNav, setAnchorElNav] = useState(null);
 
   const handleOpenNavMenu = (event) => {
@@ -49,24 +49,48 @@ const Navbar = () => {
               sx={{
                 display: { xs: "block", md: "none" },
               }}>
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Link to={`/${page.toLowerCase()}`} style={{ textDecoration: "none", color: 'black'}}>
-                    {page}
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Link to='/' style={{ textDecoration: "none", color: "black" }}>
+                  Home
+                </Link>
+              </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Link to='/createpost' style={{ textDecoration: "none", color: "black" }}>
+                  CreatePost
+                </Link>
+              </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu}>
+                {!isAuth ? (
+                  <Link to='/login' style={{ textDecoration: "none", color: "black" }}>
+                    Login
                   </Link>
-                </MenuItem>
-              ))}
+                ) : (
+                  <Button onClick={signUserOut} style={{ textTransform: "none", color: "black", fontSize: "1rem" }}>
+                    Logout
+                  </Button>
+                )}
+              </MenuItem>
             </Menu>
           </Box>
           <Typography variant='h6' noWrap component='div' sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             Blog
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, alignItems: "center", justifyContent: "center" }}>
-            {pages.map((page) => (
-              <Link to={`/${page.toLowerCase()}`} key={page} onClick={handleCloseNavMenu} style={{ margin: "1rem", color: "white", display: "block", textDecoration: "none", fontSize: "1.4rem" }}>
-                {page}
+            <Link to='/' onClick={handleCloseNavMenu} style={{ margin: "1rem", color: "white", display: "block", textDecoration: "none", fontSize: "1.4rem" }}>
+              Home
+            </Link>
+            <Link to='/createpost' onClick={handleCloseNavMenu} style={{ margin: "1rem", color: "white", display: "block", textDecoration: "none", fontSize: "1.4rem" }}>
+              CreatePost
+            </Link>
+            {!isAuth ? (
+              <Link to='/login' onClick={handleCloseNavMenu} style={{ margin: "1rem", color: "white", display: "block", textDecoration: "none", fontSize: "1.4rem" }}>
+                Login
               </Link>
-            ))}
+            ) : (
+              <Button onClick={signUserOut} style={{ textTransform: "none", margin: "1rem", color: "white", display: "block", fontSize: "1.4rem" }}>
+                Logout
+              </Button>
+            )}
           </Box>
         </Toolbar>
       </Container>
