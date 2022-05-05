@@ -1,13 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box } from "@mui/system";
 import { Typography, Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
+import { addDoc, collection } from "firebase/firestore";
+import { auth, database } from "../../firebase.config";
+import { useNavigate } from "react-router-dom";
 
-const CreatePost = () => {
+const CreatePost = ({ isAuth }) => {
   const [title, setTitle] = useState("");
   const [postText, setPostText] = useState("");
 
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/login");
+    }
+  }, []);
+
+  const postsCollectionRef = collection(database, "posts");
+
+  async function createPost() {
+    await addDoc(postsCollectionRef, { title, postText, author: { name: auth.currentUser.displayName, id: auth.currentUser.uid } });
+    navigate("/");
+  }
 
   return (
     <>
@@ -28,7 +44,7 @@ const CreatePost = () => {
           <TextField onChange={(e) => setPostText(e.target.value)} id='outlined-multiline-static' multiline rows={4} defaultValue='Post Detail' />
         </div>
         <div>
-          <Button variant='outlined' sx={{ marginTop: ".5rem", borderColor: "black", color: "black" }}>
+          <Button onClick={createPost} variant='outlined' sx={{ marginTop: ".5rem", borderColor: "black", color: "black" }}>
             Submit
           </Button>
         </div>

@@ -54,22 +54,27 @@ const Navbar = ({ isAuth, signUserOut }) => {
                   Home
                 </Link>
               </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Link to='/createpost' style={{ textDecoration: "none", color: "black" }}>
-                  CreatePost
-                </Link>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                {!isAuth ? (
+
+              {!isAuth ? (
+                <MenuItem onClick={handleCloseNavMenu}>
                   <Link to='/login' style={{ textDecoration: "none", color: "black" }}>
                     Login
                   </Link>
-                ) : (
-                  <Button onClick={signUserOut} style={{ textTransform: "none", color: "black", fontSize: "1rem" }}>
-                    Logout
-                  </Button>
-                )}
-              </MenuItem>
+                </MenuItem>
+              ) : (
+                <div>
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Link to='/createpost' style={{ textDecoration: "none", color: "black" }}>
+                      CreatePost
+                    </Link>
+                  </MenuItem>
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Button onClick={signUserOut} style={{ textTransform: "none", color: "black", fontSize: "1rem" }}>
+                      Logout
+                    </Button>
+                  </MenuItem>
+                </div>
+              )}
             </Menu>
           </Box>
           <Typography variant='h6' noWrap component='div' sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -79,17 +84,19 @@ const Navbar = ({ isAuth, signUserOut }) => {
             <Link to='/' onClick={handleCloseNavMenu} style={{ margin: "1rem", color: "white", display: "block", textDecoration: "none", fontSize: "1.4rem" }}>
               Home
             </Link>
-            <Link to='/createpost' onClick={handleCloseNavMenu} style={{ margin: "1rem", color: "white", display: "block", textDecoration: "none", fontSize: "1.4rem" }}>
-              CreatePost
-            </Link>
             {!isAuth ? (
               <Link to='/login' onClick={handleCloseNavMenu} style={{ margin: "1rem", color: "white", display: "block", textDecoration: "none", fontSize: "1.4rem" }}>
                 Login
               </Link>
             ) : (
-              <Button onClick={signUserOut} style={{ textTransform: "none", margin: "1rem", color: "white", display: "block", fontSize: "1.4rem" }}>
-                Logout
-              </Button>
+              <>
+                <Link to='/createpost' onClick={handleCloseNavMenu} style={{ margin: "1rem", color: "white", display: "block", textDecoration: "none", fontSize: "1.4rem" }}>
+                  CreatePost
+                </Link>
+                <Button onClick={signUserOut} style={{ textTransform: "none", margin: "1rem", color: "white", display: "block", fontSize: "1.4rem" }}>
+                  Logout
+                </Button>
+              </>
             )}
           </Box>
         </Toolbar>
